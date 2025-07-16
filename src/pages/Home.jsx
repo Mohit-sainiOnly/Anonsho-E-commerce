@@ -1,4 +1,3 @@
-// src/pages/Home.jsx
 import React, { useState } from 'react';
 import { useProducts } from '../Context/Context';
 import ProductCard from '../components/ProductCard';
@@ -10,7 +9,7 @@ const Home = () => {
 
   if (loading) return <p className="text-center mt-6 text-gray-600 dark:text-gray-300">Loading...</p>;
 
-  // ✅ Filter + Sort Logic
+  // Filter + Sort Logic
   const filteredAndSorted = [...products]
     .filter(product => {
       if (sortType === 'under-50') return product.price <= 100;
@@ -30,7 +29,7 @@ const Home = () => {
       <Hero />
 
       <div className="p-4 sm:p-6 max-w-7xl mx-auto">
-        {/* ✅ Sort + Heading */}
+        {/* Sort + Heading */}
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
           <h2 className="text-2xl font-bold text-gray-800 dark:text-yellow-400">All Products</h2>
 
@@ -49,8 +48,8 @@ const Home = () => {
           </select>
         </div>
 
-        {/* ✅ Product Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {/* Product Grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {filteredAndSorted.map(product => (
             <ProductCard key={product.id} product={product} />
           ))}

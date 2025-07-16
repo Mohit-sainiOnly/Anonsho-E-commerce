@@ -1,5 +1,3 @@
-// src/components/Hero.jsx
-
 import React, { useEffect, useState } from 'react';
 import slide1 from '../assets/slide4.png';
 import slide2 from '../assets/slide2.jpg';

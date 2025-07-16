@@ -9,7 +9,7 @@ const CategoryPage = ({ category }) => {
 
   if (loading) return <p className="text-center">Loading...</p>;
 
-  // ✅ Filter by category
+  // Filter by category
   let filtered = products.filter(p => p.category === category);
 
 const filteredAndSorted = [...products]
@@ -31,7 +31,7 @@ const filteredAndSorted = [...products]
   <Hero/>
     <div className="p-4 sm:p-6 max-w-7xl mx-auto bg-white dark:bg-gray-900 transition-colors duration-300 rounded-lg shadow-sm">
   
-  {/* ✅ Heading + Sort */}
+  {/* Heading + Sort */}
   <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
     <h2 className="text-2xl font-semibold capitalize text-gray-800 dark:text-yellow-400">
       {category} Products
@@ -52,8 +52,8 @@ const filteredAndSorted = [...products]
     </select>
   </div>
 
-  {/* ✅ Product Grid */}
-  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+  {/* Product Grid */}
+  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-6">
     {filtered.map(product => (
       <ProductCard key={product.id} product={product} />
     ))}
