@@ -8,25 +8,25 @@ const Cart = () => {
 
   if (cart.length === 0) {
     return (
-      <div className="min-h-[60vh] flex justify-center items-center bg-amber-400 px-4">
-        <div className="text-center">
-          <h2 className="text-2xl font-semibold mb-2 text-gray-800 dark:text-gray-100">
-            🛒 Your cart is empty
-          </h2>
-          <p className="text-gray-600 dark:text-gray-400">
-            Start shopping to add items to your cart.
-          </p>
-        </div>
+    <div className='h-61  max-h-full md:max-h-screen flex justify-center items-center
+    bg-amber-400'>
+      <div className="p-8 max-w-5xl max-h-96 mx-auto   text-center">
+        <h2 className="text-2xl font-semibold mb-2 text-gray-800 dark:text-gray-100">
+          🛒 Your cart is empty
+        </h2>
+        <p className="text-gray-500 dark:text-gray-400">
+          Start shopping to add items to your cart.
+        </p>
       </div>
+    </div>
     );
   }
 
   return (
-    <div className="p-4 sm:p-6 max-w-5xl mx-auto text-gray-800 dark:text-gray-100">
+    <div className="p-6 max-w-5xl max-h-96 mx-auto text-gray-800 dark:text-gray-100">
       <h2 className="text-2xl font-bold mb-6">Your Cart</h2>
 
-      {/* Cart Items List */}
-      <div className="space-y-6 max-h-[60vh] overflow-y-auto pr-2">
+      <div className="space-y-6">
         {cart.map((item) => (
           <div
             key={item.id}
@@ -51,7 +51,7 @@ const Cart = () => {
                     onClick={() => decreaseQty(item.id)}
                     className="px-3 py-1 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded text-sm"
                   >
-                    −
+                    -
                   </button>
                   <span>{item.qty}</span>
                   <button
@@ -74,13 +74,10 @@ const Cart = () => {
         ))}
       </div>
 
-      {/* Total Section */}
-      <div className="mt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+      {/* Total */}
+      <div className="mt-8 flex justify-between items-center flex-wrap gap-4">
         <p className="text-xl font-semibold">
-          Total:{' '}
-          <span className="text-blue-600 dark:text-blue-400">
-            ${total.toFixed(2)}
-          </span>
+          Total: <span className="text-blue-600 dark:text-blue-400">${total.toFixed(2)}</span>
         </p>
         <button
           onClick={clearCart}

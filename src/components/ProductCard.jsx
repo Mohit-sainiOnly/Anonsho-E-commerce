@@ -1,44 +1,54 @@
 import React from 'react';
-import { useLocation, Navigate } from 'react-router-dom';
-import { useProducts } from '../Context/Context';
-import ProductCard from '../components/ProductCard';
+import { Link } from 'react-router-dom';
 
 
-const SearchResults = () => {
-  const { products, loading } = useProducts();
-  const query = new URLSearchParams(useLocation().search).get('q')?.toLowerCase() || '';
+const ProductCard = ({ product }) => {
 
-  if (!query) return <Navigate to="/" replace />;
-
-  const filtered = products.filter(product =>
-    product.title.toLowerCase().includes(query)
-  );
-
-  if (loading) {
-    return (
-      <div className="p-6 text-center text-gray-600 dark:text-gray-300">
-        Loading search results...
-      </div>
-    );
-  }
 
   return (
-    <div className="p-6">
-      <h2 className="text-3xl font-bold text-center mb-6 text-gray-800 dark:text-white">
-        Search Results for: <span className="text-blue-500">"{query}"</span>
-      </h2>
+    <div className="relative group bg-white dark:bg-gray-900 rounded-2xl shadow-md hover:shadow-lg dark:shadow-gray-700 transition duration-300 overflow-hidden cursor-pointer">
+    
+   
 
-      {filtered.length === 0 ? (
-        <p className="text-center text-gray-500 dark:text-gray-400 text-lg">No products found.</p>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {filtered.map(product => (
-            <ProductCard key={product.id} product={product} />
-          ))}
+      {/* 🖼️ Image link */}
+      <Link to={`/product/${product.id}`}>
+        <div className="relative w-full h-60 bg-gray-100 dark:bg-gray-800 overflow-hidden">
+          <img
+            src={product.image}
+            alt={product.title}
+            className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300"
+          />
         </div>
-      )}
+      </Link>
+
+      {/* 📝 Product Details */}
+      <div className="p-4 space-y-2">
+        <h2 className="text-md font-semibold text-gray-800 dark:text-gray-100 line-clamp-2">
+          {product.title}
+        </h2>
+
+        <p className="text-xs text-gray-500 dark:text-gray-400 capitalize">
+          Category: {product.category}
+        </p>
+
+        <p className={`text-sm font-medium ${product.rating.count < 5 ? 'text-red-500' : 'text-green-600'}`}>
+          {product.rating.count < 5
+            ? `Only ${product.rating.count} left in stock!`
+            : `In Stock (${product.rating.count})`}
+        </p>
+
+        <p className="text-xl font-bold text-blue-600 dark:text-blue-400">
+          ${product.price}
+        </p>
+
+        {product.rating && (
+          <p className="text-yellow-500 text-sm">
+            ⭐ {product.rating.rate}
+          </p>
+        )}
+      </div>
     </div>
   );
 };
 
-export default SearchResults;
+export default ProductCard;

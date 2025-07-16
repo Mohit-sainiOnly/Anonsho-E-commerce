@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { FaShoppingCart, FaBars, FaTimes } from 'react-icons/fa';
 import DarkModeToggle from './DarkmodeToggle';
@@ -9,23 +9,19 @@ const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [search, setSearch] = useState('');
   const navigate = useNavigate();
-  const searchInputRef = useRef(null);
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth >= 768) setMenuOpen(false);
+      if (window.innerWidth >= 768) {
+        setMenuOpen(false);
+      }
     };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  useEffect(() => {
-    if (menuOpen && searchInputRef.current) searchInputRef.current.focus();
-  }, [menuOpen]);
-
-  const handleSearchSubmit = (e) => {
-    e.preventDefault();
-    if (search.trim()) {
+  const handleSearch = (e) => {
+    if (e.key === 'Enter' && search.trim()) {
       navigate(`/search?q=${encodeURIComponent(search.trim())}`);
       setSearch('');
       setMenuOpen(false);
@@ -58,19 +54,19 @@ const Navbar = () => {
         ))}
       </ul>
 
-      {/* Right: Search + Cart + Dark Mode + Burger */}
+      {/* Right: Search + Cart + Toggle + Hamburger */}
       <div className="flex items-center gap-4">
-        {/* Desktop Search */}
-        <form onSubmit={handleSearchSubmit} className="hidden md:block">
+        {/* Search */}
+        <div className="hidden md:block">
           <input
-            type="search"
-            inputMode="search"
+            type="text"
             placeholder="Search..."
             className="px-3 py-1 border rounded-full dark:text-white dark:bg-gray-800 focus:outline-none"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
+            onKeyDown={handleSearch}
           />
-        </form>
+        </div>
 
         {/* Cart */}
         <Link to="/cart" className="relative">
@@ -84,11 +80,11 @@ const Navbar = () => {
 
         {/* Hamburger */}
         <button className="md:hidden text-gray-700 dark:text-yellow-400" onClick={toggleMenu}>
-          {menuOpen ? <FaTimes size={22} /> : <FaBars size={22} />}
-        </button>
+  {menuOpen ? <FaTimes size={22} /> : <FaBars size={22} />}
+</button>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu (Always fixed, no slider) */}
       {menuOpen && (
         <>
           <div className="fixed top-0 right-0 h-full w-64 bg-white dark:bg-gray-900 text-black dark:text-white shadow-lg z-50">
@@ -98,23 +94,20 @@ const Navbar = () => {
             </div>
 
             <div className="p-4 space-y-4">
-              {/* Mobile Search */}
-              <form onSubmit={handleSearchSubmit}>
-                <input
-                  ref={searchInputRef}
-                  type="search"
-                  inputMode="search"
-                  placeholder="Search..."
-                  className="w-full px-3 py-2 border rounded-full dark:bg-gray-800 dark:text-white focus:outline-none"
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                />
-              </form>
+              {/* Search */}
+              <input
+                type="text"
+                placeholder="Search..."
+                className="w-full px-3 py-2 border rounded-full dark:bg-gray-800 dark:text-white focus:outline-none"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                onKeyDown={handleSearch}
+              />
 
-              {/* Mobile Nav Links */}
+              {/* Nav Links */}
               <ul className="space-y-4 text-base font-medium">
                 <li><NavLink to="/" onClick={closeMenu} className="hover:text-yellow-500">Home</NavLink></li>
-                <li><NavLink to="/mens" onClick={closeMenu} className="hover:text-yellow-500">Men</NavLink></li>
+                <li><NavLink to="/mans" onClick={closeMenu} className="hover:text-yellow-500">Men</NavLink></li>
                 <li><NavLink to="/womens" onClick={closeMenu} className="hover:text-yellow-500">Women</NavLink></li>
                 <li><NavLink to="/jewelery" onClick={closeMenu} className="hover:text-yellow-500">Jewellery</NavLink></li>
                 <li><NavLink to="/electronics" onClick={closeMenu} className="hover:text-yellow-500">Electronics</NavLink></li>
@@ -123,7 +116,10 @@ const Navbar = () => {
           </div>
 
           {/* Overlay */}
-          <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40" onClick={closeMenu} />
+          <div
+            className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40"
+            onClick={closeMenu}
+          />
         </>
       )}
     </nav>
